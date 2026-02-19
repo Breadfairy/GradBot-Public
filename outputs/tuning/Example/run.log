@@ -1,0 +1,54 @@
+
+==================================================
+=== Portfolio example Summary – 10000 USDT, 360 days (raw 454) ===
+==================================================
+Snapshot at end: 2025-02-19 00:00 UTC @ 17.7200
+Trading Portfolio:
+  Ticker   : LINKUSDT
+  Cash     : 2646.79 USDT
+  Asset    : 630.227475 LINKUSDT @ 17.7200
+  Realized : 5238.21 USDT
+  Gross Val: 13814.42 USDT
+  Trades   : 61
+  Tax Owed : n/a (income mode)
+  Fees Paid: 99.45 USDT
+  Tax Mode : income (base 36000.00)
+  P&L (gross)    : 3814.42 USDT
+
+Benchmark (Buy-and-Hold):
+  Ticker  : LINKUSDT
+  Cash    : 0.00 USDT
+  Asset   : 547.967747 LINKUSDT @ 17.7200
+  Gross Val: 9709.99 USDT
+
+Gross Values Comparison:
+  Trading : 13814.42 USDT
+  HODL    : 9709.99 USDT
+  Gross vs HODL: +42.27%
+
+==================================================
+=== Risk Assessment ===
+==================================================
+  Sharpe 1w   (abs/rel): 0.989 / 0.832
+  Sharpe 4w   (abs/rel): 1.032 / 1.206
+  Sharpe 13w  (abs/rel): 0.595 / 0.653
+  Sortino 4w  (abs/rel): 1.482 / 1.737
+  Sortino 13w (abs/rel): 0.785 / 0.885
+  MDD    : 36.43%
+  MAR    : 1.067
+  CAGR   : 38.86%
+
+==================================================
+=== Tax Assessment – Per Year Estimate ====
+==================================================
+  Base Income       : 36000.00 AUD
+  Trading Income    : 2588.46 AUD
+  TOTAL             : 38588.46 AUD
+
+  Tax Base          : 0.00 AUD
+  Tax Rate          : 16.00% per dollar over 18,200 AUD
+  Income Tax        : 3262.15 AUD
+  ------------------------------------------------
+  Net Income        : 35326.31 AUD
+  ================================================
+==================================================

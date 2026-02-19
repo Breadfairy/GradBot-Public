@@ -1,0 +1,38 @@
+# OS / editor junk
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mplconfig/
+
+# Secrets (never commit real keys)
+config.ini
+**/config.ini
+
+# Generated / cached data
+cache/
+oracle_flags.csv
+tags
+tags.lock
+tags.temp
+tags.temp.tmp
+
+# Generated profiles / artifacts
+inputs/profiles/**
+!inputs/profiles/example-config.json
+inputs/profiles/brackets/
+inputs/profiles/results/
+inputs/klines/
+inputs/Klines/
+
+# Outputs: keep only the curated example run
+outputs/**
+!outputs/tuning/
+outputs/tuning/**
+!outputs/tuning/example/
+!outputs/tuning/example/**
+
+# Keep macOS metadata out of the repo, even in curated outputs.
+.DS_Store
