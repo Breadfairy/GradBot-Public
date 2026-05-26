@@ -3,7 +3,7 @@ set -euo pipefail
 
 if [[ $# -lt 2 ]]; then
   echo "usage: run_tune.sh <profile.json> <run_label> [KEY=VALUE ...]" >&2
-  echo "example: scripts/run_tune.sh inputs/profiles/btc.json run1 TUNE_RISK=0" >&2
+  echo "example: scripts/run_tune.sh user-config.json run1" >&2
   exit 1
 fi
 
@@ -25,6 +25,14 @@ source "$LIB_DIR/profile_path.sh"
 PROFILES_DIR="$ROOT_DIR/inputs/profiles"
 OUTPUTS_DIR="$ROOT_DIR/outputs/tuning"
 RUN_DIR="$OUTPUTS_DIR/$RUN_LABEL"
+MPL_DIR="$ROOT_DIR/.mplconfig"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+export PYTHON_BIN
+if [[ -n "${PYTHONPATH:-}" ]]; then
+  export PYTHONPATH="$ROOT_DIR/src:$PYTHONPATH"
+else
+  export PYTHONPATH="$ROOT_DIR/src"
+fi
 
 # Allow short profile names from inputs/profiles
 PROFILE_ABS="$(resolve_profile_path "$PROFILE_INPUT" "$PROFILES_DIR")"
@@ -60,11 +68,30 @@ if [[ -d "$RUN_DIR" ]]; then
 fi
 
 mkdir -p "$RUN_DIR"
+mkdir -p "$MPL_DIR"
+export MPLCONFIGDIR="$MPL_DIR"
 
-python3 "$ROOT_DIR/src/tune_pipeline.py" \
-  --profile "$PROFILE_ABS" \
-  --label "$RUN_LABEL" \
-  --out "$RUN_DIR"
+ANCHOR_ARGS=()
+if [[ -n "${TUNE_ANCHOR_MS:-}" ]] && [[ -n "${TUNE_ANCHOR_DATE:-}" ]]; then
+  echo "[tune] use only one of TUNE_ANCHOR_MS or TUNE_ANCHOR_DATE" >&2
+  exit 1
+fi
+if [[ -n "${TUNE_ANCHOR_MS:-}" ]]; then
+  ANCHOR_ARGS+=(--anchor-ms "$TUNE_ANCHOR_MS")
+fi
+if [[ -n "${TUNE_ANCHOR_DATE:-}" ]]; then
+  ANCHOR_ARGS+=(--anchor-date "$TUNE_ANCHOR_DATE")
+fi
 
-# Run holdout backtests for best + stats configs via run_backtest.sh
-"$SCRIPT_DIR/run_backtest.sh" "$RUN_DIR" "$RUN_LABEL"
+if [[ ${#ANCHOR_ARGS[@]} -gt 0 ]]; then
+  "$PYTHON_BIN" -m tune.run \
+    --profile "$PROFILE_ABS" \
+    --label "$RUN_LABEL" \
+    --out "$RUN_DIR" \
+    "${ANCHOR_ARGS[@]}"
+else
+  "$PYTHON_BIN" -m tune.run \
+    --profile "$PROFILE_ABS" \
+    --label "$RUN_LABEL" \
+    --out "$RUN_DIR"
+fi

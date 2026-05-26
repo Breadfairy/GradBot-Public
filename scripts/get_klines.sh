@@ -16,5 +16,7 @@ WINDOW="${3:-365}"
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 ROOT_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
+export PYTHONPATH="$ROOT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
 
-exec python3 "$ROOT_DIR/src/klines_tools.py" get "$TICKER" "$INTERVAL" "$WINDOW"
+exec python3 -m data.prepare_klines \
+  get "$TICKER" "$INTERVAL" "$WINDOW"
